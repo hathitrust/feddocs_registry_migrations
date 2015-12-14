@@ -1,0 +1,4 @@
+.env
+.bundle
+Gemfile.lock
+config/mongoid.yml
