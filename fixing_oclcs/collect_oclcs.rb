@@ -35,11 +35,11 @@ recs.each do | rec |
   if fields["003"] and fields["003"][0] =~ /OCoLC/i 
     rec.oclc_location = "001"
     rec.stated_oclcnum = fields["001"][0].gsub(/\D/, '')
-  else
+  elsif fields["035"]
     fields["035"].each do | f | 
       as = f["subfields"].select { | sf | sf.keys[0] == "a" }
       zs = f["subfields"].select { | sf | sf.keys[0] == "z" }
-      if as and OCLCPAT.match(as[0]["a"]) 
+      if as.count > 0 and OCLCPAT.match(as[0]["a"]) 
         rec.stated_oclcnum = $1
 
         zs.each do | z |
@@ -52,5 +52,4 @@ recs.each do | rec |
   end
 
   rec.save
-  exit
 end
