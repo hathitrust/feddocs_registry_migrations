@@ -1,17 +1,19 @@
 require 'registry_record'
 require 'source_record'
-require_relative '../header' 
+#require_relative '../header' 
 require 'pp'
 require 'mongo'
 require 'dotenv'
+require 'library_stdnums'
 
 Dotenv.load
 
+#OCLCPAT taken from traject, except middle o made optional
 OCLCPAT = 
   /
       \A\s*
-      (?:(?:\(OCoLC\)) |
-  (?:\(OCoLC\))?(?:(?:ocm)|(?:ocn)|(?:on))
+      (?:(?:\(OCo?LC\)) |
+  (?:\(OCo?LC\))?(?:(?:ocm)|(?:ocn)|(?:on))
   )(\d+)
   /x
 
@@ -20,36 +22,117 @@ Mongo::Logger.logger.level = ::Logger::FATAL
 
 @mc = Mongo::Client.new([ENV['mongo_host']+':'+ENV['mongo_port']], :database => 'htgd' )
 
-recs = SourceRecord.where(:stated_oclcnum.exists => false )
-recs.each do | rec |
-  fields = {}
+#contributors with 001 stated
+contrib_001 = {} 
+contribs = open(ARGV.shift)
+contribs.each { |line| contrib_001[line.chomp] = 1 }
+
+count = 0
+SourceRecord.all.each do | rec |
+  count += 1
+  rec[:oclc_alleged] = []
+  rec[:lccn_normalized] = []
+  rec[:issn_normalized] = []
+  rec[:oclc_resolved] = []
   rec[:source]["fields"].each do | f | 
-    k = f.keys[0]
-    if fields[k]
-      fields[k].push f[k]
-    else 
-      fields[k] = [f[k]]
-    end
-  end
+    #########
+    # OCLC
 
-  if fields["003"] and fields["003"][0] =~ /OCoLC/i 
-    rec.oclc_location = "001"
-    rec.stated_oclcnum = fields["001"][0].gsub(/\D/, '')
-  elsif fields["035"]
-    fields["035"].each do | f | 
-      as = f["subfields"].select { | sf | sf.keys[0] == "a" }
-      zs = f["subfields"].select { | sf | sf.keys[0] == "z" }
+    #035a's and 035z's 
+    if f["035"]
+      as = f["035"]["subfields"].select { | sf | sf.keys[0] == "a" }
+      zs = f["035"]["subfields"].select { | sf | sf.keys[0] == "z" }
+
       if as.count > 0 and OCLCPAT.match(as[0]["a"]) 
-        rec.stated_oclcnum = $1
-
+        oclc = $1.to_i
+        if oclc
+          rec[:oclc_alleged] << oclc
+        end
+        #stick the z's in a resolution collection
         zs.each do | z |
           if OCLCPAT.match(z["z"])
-            @mc[:oclc_resolution].insert_one({:canceled => $1, :replacement => rec.stated_oclcnum})
+            @mc[:oclc_resolution].insert_one({:canceled => $1, :replacement => oclc})
           end
         end
       end
     end
+
+    #OCLC prefix in 001
+    if f["001"] and OCLCPAT.match(f["001"])
+      rec[:oclc_alleged] << $1.to_i
+    end
+
+    #contributors who told us to look in the 001
+    if f["001"] and contrib_001[rec[:org_code]] and /^(\d+)$/x.match(f["001"])
+      rec[:oclc_alleged] << $1.to_i
+    end
+
+    #Indiana told us 955$o. Not likely, but...
+    if rec[:org_code] == "inu" and f["955"]
+      o955 = f["955"]["subfields"].select { | sf | sf.keys[0] == "o" }
+      o955.each do | o | 
+        if /(\d+)/.match(o["o"])
+          rec[:oclc_alleged] << $1.to_i
+        end
+      end
+    end
+
+    #########
+    # LCCN
+
+    if f["010"] 
+      as = f["010"]["subfields"].select { | sf | sf.keys[0] == "a" }
+      zs = f["010"]["subfields"].select { | sf | sf.keys[0] == "z" }
+
+      if as.count > 0
+        lccn = StdNum::LCCN.normalize(as[0]["a"].downcase)
+        rec[:lccn_normalized] << lccn 
+        #stick the z's in a resolution collection
+        zs.each do | z | 
+          @mc[:lccn_resolution].insert_one({:canceled => StdNum::LCCN.normalize(z["z"].downcase), :replacement => lccn})
+        end 
+      end
+    end
+
+    #########
+    # ISSN
+
+    if f['022']
+      as = f["022"]["subfields"].select { | sf | sf.keys[0] == "a" }
+      zs = f["022"]["subfields"].select { | sf | sf.keys[0] == "z" }
+
+      if as.count > 0
+        issn = StdNum::ISSN.normalize(as[0]["a"])
+        rec[:issn_normalized] << issn 
+        #stick the z's in a resolution collection
+        zs.each do | z | 
+          @mc[:issn_resolution].insert_one({:canceled => StdNum::ISSN.normalize(z["z"]), :replacement => issn})
+        end 
+      end
+    end
+
+  end #each field
+
+  rec[:oclc_alleged].uniq!
+  #resolve our oclc
+  rec[:oclc_alleged].each do | oa |
+    @mc[:oclc_authoritative].find(:duplicates => oa).each do | ores | #1?
+      rec[:oclc_resolved] << ores[:oclc]
+    end
+  end
+  if rec[:oclc_resolved].count() == 0
+    rec[:oclc_resolved] = rec[:oclc_alleged]
   end
 
+  rec[:oclc_resolved].uniq!
+  rec[:lccn_normalized].uniq!
+  rec[:issn_normalized].uniq!
+
   rec.save
-end
+
+  if count % 10000 == 0 
+    print "#{count}\r"
+    $stdout.flush
+  end
+
+end #each rec
