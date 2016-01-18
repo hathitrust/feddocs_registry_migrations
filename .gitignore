@@ -3,5 +3,3 @@
 Gemfile.lock
 config/mongoid.yml
 nohup.out
-fixing_oclcs
-fixing_oclcs/*

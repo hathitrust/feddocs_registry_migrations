@@ -1,3 +1,6 @@
+#this doesn't need to be repeated. 
+#TODO: rip the relevant bits out for SourceRecord.new()
+
 require 'registry_record'
 require 'source_record'
 #require_relative '../header' 
