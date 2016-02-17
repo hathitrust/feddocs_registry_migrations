@@ -158,11 +158,11 @@ SourceRecord.all.each do | rec |
   #resolve our oclc
   rec[:oclc_alleged].each do | oa |
     @mc[:oclc_authoritative].find(:duplicates => oa).each do | ores | #1?
-      rec[:oclc_resolved] << ores[:oclc]
+      rec[:oclc_resolved] << ores[:oclc].to_i
     end
   end
   if rec[:oclc_resolved].count() == 0
-    rec[:oclc_resolved] = rec[:oclc_alleged]
+    rec[:oclc_resolved] = rec[:oclc_alleged].to_i
   end
   
   rec[:oclc_resolved].uniq!
