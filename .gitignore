@@ -3,5 +3,6 @@
 Gemfile.lock
 config/mongoid.yml
 nohup.out
-identifers/extract_035s.rb
-identifier_prefixes.rb
+identifiers/extract_035s.rb
+identifiers/identifier_prefixes.rb
+identifiers/identifier_prefixes.txt
