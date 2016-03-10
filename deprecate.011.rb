@@ -8,6 +8,11 @@ source_count = 0
 recs.each do | rec | 
   source_count += 1 
   rec.deprecate("#{REPO_VERSION}: Records (partially) copied from HathiTrust.")
+  #deprecate a related registry record if it's the only source for it.
+  RegistryRecord.where(:source_record_ids => [rec.source_id]).each do | regrec |
+    regrec.deprecate("#{REPO_VERSION}: Records (partially) copied from HathiTrust.")
+  end
+
 end
 puts "MSU/HT Records deprecated: #{source_count}"
 
