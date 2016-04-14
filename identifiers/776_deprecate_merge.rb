@@ -61,6 +61,7 @@ SourceRecord.where({"source.fields":{"$elemMatch": {"776":{"$exists":1}}}, depre
     #end
   end
 
+end
 puts "source count: #{source_count}"
 puts "reg count: #{reg_count}"
 puts "online count: #{o_count}"
