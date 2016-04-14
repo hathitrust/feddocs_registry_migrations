@@ -12,7 +12,7 @@ require './header'
 source_count = 0
 reg_count = 0
 o_count = 0
-SourceRecord.where({"source.fields":{"$elemMatch": {"776":{"$exists":1}}}, deprecated_timestamp:{"$exists":0}).no_timeout.each do |sr|
+SourceRecord.where({"source.fields":{"$elemMatch": {"776":{"$exists":1}}}, deprecated_timestamp:{"$exists":0}}).no_timeout.each do |sr|
   source_count += 1
   old_oclcs = sr.oclc_resolved
   old_issns = sr.issn_normalized
