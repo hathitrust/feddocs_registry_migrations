@@ -3,7 +3,10 @@ require 'source_record'
 require './header' 
 
 # Find source recs with 776. Re-extract their identifiers. If they changed, 
-# recluster. 
+# recollate. 
+#
+# We will cluster sources with 776 identifiers in 014.cluster.rb and
+# dedupe registry records in 015.merge.rb 
 #
 reg_ids = []
 source_count = 0
