@@ -10,8 +10,7 @@ reg_count = 0
 SourceRecord.where({"source.fields.533.subfields":{"$elemMatch":{"f":/Confederate imprints/}}})
                     .no_timeout.each do |rec|
   source_count += 1 
-  #rec.deprecate("#{REPO_VERSION}: Not a US Federal Document. Confederacy.")
-  #deprecate a related registry record if it's the only source for it.
+  rec.deprecate("#{REPO_VERSION}: Not a US Federal Document. Confederacy.")
   RegistryRecord.where({source_record_ids: rec.source_id}).each do | regrec |
     reg_count += 1
     regrec.deprecate("#{REPO_VERSION}: Not a US Federal Document. Confederacy.")
