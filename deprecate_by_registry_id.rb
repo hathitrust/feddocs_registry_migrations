@@ -11,6 +11,10 @@ fin = open(ARGV.shift)
 fin.each do | line |
   #extract the registry id in case it's a full url
   reg_id = /(?:.*catalog\/)?(.*)(?:#)?/.match(line.split(/\t/)[0])[1]  
+  if reg_id.length != 36
+    puts "bad reg id: #{reg_id}"
+    next
+  end
 
   RegistryRecord.where(registry_id: reg_id,
                        deprecated_timestamp: {"$exists":0})
