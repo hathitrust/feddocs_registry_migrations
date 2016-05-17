@@ -15,12 +15,17 @@ new_r_count = 0
 badrec = RegistryRecord.where(oclcnum_t:3741824, 
                      deprecated_timestamp:{"$exists":0}).first 
 
-badrec.deprecate( "#{REPO_VERSION}: Bad oclc # caused mega-cluster.")
+#badrec.deprecate( "#{REPO_VERSION}: Bad oclc # caused mega-cluster.")
 
 SourceRecord.where(oclc_resolved:3741824,
                   deprecated_timestamp:{"$exists":0}).no_timeout.each do |src|
   source_count += 1
   src.oclc_resolved = [] #delete the bogus oclc 
+  src.save
+
+  if src.enum_chrons.length == 0
+    src.enum_chrons << ''
+  end
 
   src.enum_chrons.each do | ec |
     if regrec = RegistryRecord.cluster(src, ec)
