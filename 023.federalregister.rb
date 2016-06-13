@@ -27,7 +27,7 @@ oclcnums = [1768512,
 
 
 
-SourceRecord.where(oclc_resolved:{"$in":oclcnums}).no_timeout.each do |src|
+SourceRecord.where(oclc_resolved:{"$in":oclcnums}, series:{"$ne":"FederalRegister"}).no_timeout.each do |src|
   source_count += 1
   src.series = "FederalRegister"
   src.save
