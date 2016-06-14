@@ -40,7 +40,7 @@ RegistryRecord.where(oclcnum_t:{"$in":oclcnums}, deprecated_timestamp:{"$exists"
   #parsed and exploded replacement ECs.
   new_ids = [] 
   FederalRegister.explode(ec).keys.uniq.each do | new_ec |
-    r = RegistryRecord.new(reg.source_record_ids, new_ec, 'Federal Register enumchron parsing.', reg.registry_id)
+    r = RegistryRecord.new(reg.source_record_ids, new_ec, 'Federal Register enumchron parsing.', [reg.registry_id])
     r.series = "Federal Register"
     r.save
     new_ids << r.registry_id
