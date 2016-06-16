@@ -42,21 +42,32 @@ RegistryRecord.where(oclcnum_t:{"$in":oclcnums}, deprecated_timestamp:{"$exists"
   FederalRegister.explode(ec).keys.uniq.each do | new_ec |
     r = RegistryRecord.new(reg.source_record_ids, new_ec, 'Federal Register enumchron parsing.', [reg.registry_id])
     r.series = "Federal Register"
-    r.save
+    #r.save
     new_ids << r.registry_id
   end
 
-  reg.deprecate( 'Improved Federal Register enum/chron parsing.', new_ids)
+  #reg.deprecate( 'Improved Federal Register enum/chron parsing.', new_ids)
   deprecate_count +=1 
  
 end
 
 # Parse the individual SourceRecord enumchrons
 SourceRecord.where(series:"FederalRegister",deprecated_timestamp:{"$exists":0}).no_timeout.each do |src|
+  src.ec = src.extract_enum_chrons
+  if src.ec.keys.count > 0
+    src.enum_chrons = src.ec.collect do |k,fields|
+      if !fields['canonical'].nil?
+        fields['canonical']
+      else
+        fields['string']
+      end
+    end
+  else
+    src.enum_chrons = []
+  end
+  #src.save
   source_count += 1
-  src.ecs = src.extract_enum_keys
-  src.enum_chrons = src.ecs.keys
-  src.save
+
 end
 
 puts "Deprecated records: #{deprecate_count}"
