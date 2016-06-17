@@ -63,7 +63,7 @@ SourceRecord.where(series:"FederalRegister",deprecated_timestamp:{"$exists":0}).
       end
     end
   else
-    src.enum_chrons = []
+    src.enum_chrons = ['']
   end
   #src.save
   source_count += 1
