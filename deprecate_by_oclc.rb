@@ -18,13 +18,17 @@ fin.each do | line |
                      .no_timeout.each do | srcrec |
     source_count += 1 
     srcrec.deprecate("#{REPO_VERSION}: Not a US Federal Document. Identified by OCLC.")
+  end
 
-    RegistryRecord.where(source_record_ids: srcrec.source_id,
-                         deprecated_timestamp: {"$exists":0})
-                         .no_timeout.each do | regrec | 
-      reg_count += 1
-      regrec.deprecate("#{REPO_VERSION}: Not a US Federal Document. Identified by OCLC.")
-    end
+
+  # has ONLY this oclc. 
+  # Occasionally bogus sources get clustered with legit RegRecs 
+  # resulting in multiple OCLC numbers. Leave them be. 
+  RegistryRecord.where(oclcnum_t: [oclc],
+                       deprecated_timestamp: {"$exists":0})
+                       .no_timeout.each do | regrec | 
+    reg_count += 1
+    regrec.deprecate("#{REPO_VERSION}: Not a US Federal Document. Identified by OCLC.")
   end
 end
 
