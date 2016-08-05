@@ -1,30 +1,22 @@
-#this doesn't need to be repeated. 
-#We weren't checking for ind1 == 0 for sudocs
-
 require 'registry_record'
 require 'source_record'
 require_relative '../header' 
-require 'pp'
-require 'mongo'
-require 'dotenv'
-require 'library_stdnums'
 
-Dotenv.load
+num_old_sudocs = 0
+num_non_sudocs = 0
+num_invalid_sudocs = 0
+num_fixed = 0
+SourceRecord.where(deprecated_timestamp:{"$exists":0}).no_timeout.each do |r|
+  old_sudocs = r.sudocs
+  num_old_sudocs += old_sudocs.count
 
-Mongoid.load!("config/mongoid.yml", :development)
-Mongo::Logger.logger.level = ::Logger::FATAL
-
-@mc = Mongo::Client.new([ENV['mongo_host']+':'+ENV['mongo_port']], :database => 'htgd' )
-count = 0
-SourceRecord.all.each do | rec |
-  count += 1
-
-  rec.extract_sudocs 
-  rec.save
-
-  if count % 10000 == 0 
-    print "#{count}\r"
-    $stdout.flush
-  end
-
-end #each rec
+  r.extract_sudocs
+  num_non_sudocs += r.non_sudocs.count
+  num_invalid_sudocs += r.invalid_sudocs.count
+  num_fixed += (old_sudocs & r.non_sudocs).count
+  r.save
+end
+puts "num old sudocs: #{num_old_sudocs}"
+puts "num non sudocs: #{num_non_sudocs}"
+puts "num invalid sudocs: #{num_invalid_sudocs}"
+puts "num sudocs to be fixed: #{num_fixed}"
