@@ -21,10 +21,11 @@ fin.each do | line |
   end
 
 
+  # The comment below is no longer the case. We don't need to be that paranoid.
   # has ONLY this oclc. 
   # Occasionally bogus sources get clustered with legit RegRecs 
   # resulting in multiple OCLC numbers. Leave them be. 
-  RegistryRecord.where(oclcnum_t: [oclc],
+  RegistryRecord.where(oclcnum_t: oclc,
                        deprecated_timestamp: {"$exists":0})
                        .no_timeout.each do | regrec | 
     reg_count += 1
