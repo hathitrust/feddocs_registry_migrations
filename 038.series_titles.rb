@@ -16,6 +16,7 @@ SourceRecord.where(sudocs:/^#{Regexp.escape(EconomicReportOfThePresident.sudoc_s
   RegistryRecord.where(source_record_ids:src.source_id, 
                        series:{"$ne":"Economic Report Of The President"}).no_timeout.each do |r|
     r.series = "Economic Report Of The President"
+    rr_count += 1
     r.save
   end
 end
@@ -50,6 +51,7 @@ SourceRecord.where(sudocs:/^#{Regexp.escape(ForeignRelations.sudoc_stem)}/).no_t
   RegistryRecord.where(source_record_ids:src.source_id, 
                        series:{"$ne":"Foreign Relations"}).no_timeout.each do |r|
     r.series = "Foreign Relations"
+    rr_count += 1
     r.save
   end
 
