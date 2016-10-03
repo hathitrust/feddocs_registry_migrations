@@ -9,7 +9,7 @@ require 'pp'
 # Economic Report of the President
 source_count = 0
 rr_count = 0
-SourceRecord.where(sudocs:/^#{RegExp.escape(EconomicReportOfThePresident.sudoc_stem)}/).no_timeout.each do |src|
+SourceRecord.where(sudocs:/^#{Regexp.escape(EconomicReportOfThePresident.sudoc_stem)}/).no_timeout.each do |src|
   source_count += 1
   src.series = "EconomicReportOfThePresident"
   src.save
@@ -43,7 +43,7 @@ puts "USReports rr: #{rr_count}"
 #Foreign Relations of the United States
 source_count = 0
 rr_count = 0
-SourceRecord.where(sudocs:/^#{RegExp.escape(ForeignRelations.sudoc_stem)}/).no_timeout.each do |src|
+SourceRecord.where(sudocs:/^#{Regexp.escape(ForeignRelations.sudoc_stem)}/).no_timeout.each do |src|
   source_count += 1
   src.series = "ForeignRelations"
   src.save
@@ -60,7 +60,7 @@ puts "Foreign Relations RR: #{rr_count}"
 #Congressional Record
 source_count = 0
 rr_count = 0
-SourceRecord.where(sudocs:/^#{RegExp.escape(CongressionalRecord.sudoc_stem)}/).no_timeout.each do |src|
+SourceRecord.where(sudocs:/^#{Regexp.escape(CongressionalRecord.sudoc_stem)}/).no_timeout.each do |src|
   source_count += 1
   src.series = "CongressionalRecord"
   src.save
@@ -78,7 +78,7 @@ puts "congressional Record RR: #{rr_count}"
 #Congressional Serial Set
 source_count = 0
 rr_count = 0
-SourceRecord.where(sudocs:/^#{RegExp.escape(CongressionalSerialSet.sudoc_stem)}/).no_timeout.each do |src|
+SourceRecord.where(sudocs:/^#{Regexp.escape(CongressionalSerialSet.sudoc_stem)}/).no_timeout.each do |src|
   source_count += 1
   src.series = "CongressionalSerialSet"
   src.save
@@ -95,7 +95,7 @@ puts "congressional Record RR: #{rr_count}"
 #Civil Rights Commission
 source_count = 0
 rr_count = 0
-SourceRecord.where(sudocs:/^#{RegExp.escape(CivilRightsCommission.sudoc_stem)}/).no_timeout.each do |src|
+SourceRecord.where(sudocs:/^#{Regexp.escape(CivilRightsCommission.sudoc_stem)}/).no_timeout.each do |src|
   source_count += 1
   src.series = "CivilRightsCommission"
   src.save
