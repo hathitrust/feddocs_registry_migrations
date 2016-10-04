@@ -29,11 +29,11 @@ rr_count = 0
 #Statistical Abstract
 SourceRecord.where(oclc_resolved:{"$in":StatisticalAbstract.oclcs}).no_timeout.each do |src|
   source_count += 1
-  src.series = "UnitedStatesReports"
+  src.series = "StatisticalAbstract"
   src.save
   RegistryRecord.where(source_record_ids:src.source_id, 
-                       series:{"$ne":"United States Reports"}).no_timeout.each do |r|
-    r.series = "United States Reports"
+                       series:{"$ne":"Statistical Abstract"}).no_timeout.each do |r|
+    r.series = "Statistical Abstract"
     rr_count += 1
     r.save
   end
