@@ -25,6 +25,23 @@ puts "ERPres RR: #{rr_count}"
 
 source_count = 0
 rr_count = 0
+
+#Statistical Abstract
+SourceRecord.where(oclc_resolved:{"$in":StatisticalAbstract.oclcs}).no_timeout.each do |src|
+  source_count += 1
+  src.series = "UnitedStatesReports"
+  src.save
+  RegistryRecord.where(source_record_ids:src.source_id, 
+                       series:{"$ne":"United States Reports"}).no_timeout.each do |r|
+    r.series = "United States Reports"
+    rr_count += 1
+    r.save
+  end
+
+end
+puts "StatAbs: #{source_count}"
+puts "StatABs rr: #{rr_count}"
+
 #United States Reports
 SourceRecord.where(oclc_resolved:{"$in":UnitedStatesReports.oclcs}).no_timeout.each do |src|
   source_count += 1
