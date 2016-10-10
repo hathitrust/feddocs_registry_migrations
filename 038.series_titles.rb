@@ -1,7 +1,9 @@
-require 'registry_record'
-require 'source_record'
+require 'registry/registry_record'
+require 'registry/source_record'
 require './header' 
 require 'pp'
+SourceRecord = Registry::SourceRecord
+RegistryRecord = Registr::RegistryRecord
 
 # Add series info to source and registry records 
 # needless repetition I know
