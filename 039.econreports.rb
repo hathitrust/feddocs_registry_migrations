@@ -12,7 +12,7 @@ source_count = 0
 rr_count = 0
 
 # Deprecate all the EconReport RegRecs and start again with SourceRecords
-RegistryRecord.where(series:"Econcomic Report Of The President",
+RegistryRecord.where(series:"Economic Report Of The President",
                      deprecated_timestamp:{"$exists":0}).no_timeout.each do |reg|
   reg.deprecate('Improved Economic Report enum/chron parsing.')
   deprecate_count += 1
@@ -37,12 +37,13 @@ SourceRecord.where(series: "EconomicReportOfThePresident",
 
   src.source = src.source.to_json
   src.enum_chrons.each do | ec | 
-    rr_count += 1
     if regrec = RegistryRecord::cluster( src, ec)
       regrec.add_source(src)
     else
       regrec = RegistryRecord.new([src.source_id], ec, "Improved Econ Report enum/chron parsing.")
+      rr_count += 1
     end
+    regrec.series = "Economic Report Of The President"
     regrec.save
   end
   src.save
