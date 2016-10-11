@@ -37,7 +37,9 @@ SourceRecord.where(series: "EconomicReportOfThePresident",
 
   src.source = src.source.to_json
   src.enum_chrons.each do | ec | 
-    if regrec = RegistryRecord::cluster( src, ec)
+    if regrec = RegistryRecord.where(series:"Economic Report Of The President", 
+                                     deprecated_timestamp:{"$exists":0}, 
+                                     enumchron_display:ec).first
       regrec.add_source(src)
     else
       regrec = RegistryRecord.new([src.source_id], ec, "Improved Econ Report enum/chron parsing.")
