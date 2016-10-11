@@ -1,9 +1,11 @@
 require 'registry/registry_record'
 require 'registry/source_record'
+require 'registry/series/economic_report_of_the_president.rb'
 require './header' 
 require 'pp'
 SourceRecord = Registry::SourceRecord
-RegistryRecord = Registr::RegistryRecord
+RegistryRecord = Registry::RegistryRecord
+include Registry::Series
 
 # Add series info to source and registry records 
 # needless repetition I know
@@ -112,22 +114,5 @@ SourceRecord.where(sudocs:/^#{Regexp.escape(CongressionalSerialSet.sudoc_stem)}/
 end
 puts "Congressional Record source: #{source_count}"
 puts "congressional Record RR: #{rr_count}"
-
-#Civil Rights Commission
-source_count = 0
-rr_count = 0
-SourceRecord.where(sudocs:/^#{Regexp.escape(CivilRightsCommission.sudoc_stem)}/).no_timeout.each do |src|
-  source_count += 1
-  src.series = "CivilRightsCommission"
-  src.save
-  RegistryRecord.where(source_record_ids:src.source_id, 
-                       series:{"$ne":"Civil Rights Commission"}).no_timeout.each do |r|
-    r.series = "Civil Rights Commission"
-    rr_count += 1
-    r.save
-  end
-end
-puts "Civil Rights Commission source: #{source_count}"
-puts "Civil Rights Commission RR: #{rr_count}"
 
 
