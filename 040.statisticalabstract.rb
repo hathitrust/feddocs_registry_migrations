@@ -16,12 +16,13 @@ rr_count = 0
 =begin
 # Usually we would deprecate existing RegRecs, but the bug missed enumchrons, 
 # but didn't create erroneous ones. 
+=end
 RegistryRecord.where(series:"Statistical Abstract",
+                     enumchron_display:/^C\. \d+ /,
                      deprecated_timestamp:{"$exists":0}).no_timeout.each do |reg|
   reg.deprecate('Improved Statistical Abstract enum/chron parsing.')
   deprecate_count += 1
 end
-=end
 
 # Re-extract all the Source Records
 SourceRecord.where(series: "StatisticalAbstract",
@@ -60,4 +61,3 @@ end
 puts "# new RegRecs: #{rr_count}"
 puts "Deprecated records: #{deprecate_count}"
 puts "Source records: #{source_count}"
-
