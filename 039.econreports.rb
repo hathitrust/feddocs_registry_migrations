@@ -11,8 +11,9 @@ deprecate_count = 0
 source_count = 0
 rr_count = 0
 
-# Deprecate all the EconReport RegRecs and start again with SourceRecords
+# Deprecate all the EconReport RegRecs with no enumchron and start again with SourceRecords
 RegistryRecord.where(series:"Economic Report Of The President",
+                     enumchron_display:"",
                      deprecated_timestamp:{"$exists":0}).no_timeout.each do |reg|
   reg.deprecate('Improved Economic Report enum/chron parsing.')
   deprecate_count += 1
@@ -20,6 +21,7 @@ end
 
 # Re-extract all the Source Records
 SourceRecord.where(series: "EconomicReportOfThePresident",
+                   "enum_chrons.0":{"$exists":0},
                    deprecated_timestamp:{"$exists":0}).no_timeout.each do |src|
   source_count += 1
 
