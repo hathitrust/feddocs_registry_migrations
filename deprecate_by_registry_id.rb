@@ -3,6 +3,7 @@ require 'registry/source_record'
 require './header' 
 require 'pp'
 
+include Registry
 # consume a list of registry ids and deprecate  
 # not deprecating related source ids
 reg_count = 0
