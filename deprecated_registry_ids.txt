@@ -5305,3 +5305,9 @@ https://www.hathitrust.org/usdocs_registry/catalog/ffdd6626-d990-4f95-a191-143ea
 https://www.hathitrust.org/usdocs_registry/catalog/fff08eb3-0152-46ba-96e2-161f3d134a9e
 https://www.hathitrust.org/usdocs_registry/catalog/23cbbf21-72f1-489a-b7b8-aaede2e52f18
 https://www.hathitrust.org/usdocs_registry/catalog/6a8c5bf0-cc51-425f-9386-e0f337c79785
+https://www.hathitrust.org/usdocs_registry/catalog/8efc8eaa-d6b8-4bae-91a0-36c6e91b3891
+https://www.hathitrust.org/usdocs_registry/catalog/e314b404-8ad9-45c9-82ba-23909544267f
+https://www.hathitrust.org/usdocs_registry/catalog/37182d27-7a6c-4fcd-a74d-e1339a79862a
+https://www.hathitrust.org/usdocs_registry/catalog/c6ba8208-f473-4e49-a69b-ef3a24b25376
+https://www.hathitrust.org/usdocs_registry/catalog/ca7d82a5-a4c5-481a-abbd-b0790b90d209
+https://www.hathitrust.org/usdocs_registry/catalog/b3965787-9cc4-4178-a0c2-7867d6850eff
