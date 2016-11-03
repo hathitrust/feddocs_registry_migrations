@@ -1,8 +1,9 @@
-require 'registry_record'
-require 'source_record'
+require 'registry/registry_record'
+require 'registry/source_record'
 require './header' 
 require 'pp'
 
+include Registry
 # consume a list of OCLCs and deprecate related reg recs 
 source_count = 0
 reg_count = 0

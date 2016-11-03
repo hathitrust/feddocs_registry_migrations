@@ -1,5 +1,5 @@
-require 'registry_record'
-require 'source_record'
+require 'registry/registry_record'
+require 'registry/source_record'
 require './header' 
 require 'pp'
 
