@@ -9,3 +9,4 @@ identifiers/identifier_prefixes.txt
 sources_in_registry_04_15.txt
 ignore
 *.tmp
+*.tmp.rb

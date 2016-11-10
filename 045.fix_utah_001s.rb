@@ -28,8 +28,13 @@ SourceRecord.where(org_code:"ula",
       rr_deprecate_count += 1
     else
       regrec.source_record_ids.delete(src.source_id)
+      regrec.save
       regrec.recollate
       rr_recollate += 1
+
+      if regrec.source_record_ids.include? src.source_id
+	      puts "wtf"
+      end
 
       #figure out which OCLC only Utah had
       bad_oclcs = src.oclc_resolved - regrec.oclcnum_t
