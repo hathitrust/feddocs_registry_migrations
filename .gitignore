@@ -2,7 +2,7 @@
 .bundle
 Gemfile.lock
 config/mongoid.yml
-nohup.out
+nohup*.out
 identifiers/extract_035s.rb
 identifiers/identifier_prefixes.rb
 identifiers/identifier_prefixes.txt
