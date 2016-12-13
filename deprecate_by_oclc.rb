@@ -32,6 +32,7 @@ get_deprecated_oclcs.each do | line |
                        .no_timeout.each do | regrec | 
     reg_count += 1
     regrec.deprecate("#{REPO_VERSION}: Not a US Federal Document. Identified by OCLC.")
+    puts oclc
   end
 end
 
