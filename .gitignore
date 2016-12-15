@@ -12,4 +12,4 @@ ignore
 *.tmp
 *.tmp.rb
 *.tmp.tsv
-client_secret.json
+.client_secret.json

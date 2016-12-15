@@ -41,13 +41,16 @@ SourceRecord.where(series: "CongressionalRecord",
     if regrec = RegistryRecord.where(series:"Congressional Record", 
                                      deprecated_timestamp:{"$exists":0}, 
                                      enumchron_display:ec).first
-      regrec.add_source(src)
+      if !regrec.source_record_ids.include? src.source_id 
+        regrec.add_source(src)
+        regrec.save
+      end
     else
       regrec = RegistryRecord.new([src.source_id], ec, "Improved enum/chron parsing.")
       rr_count += 1
+      regrec.series = "Congressional Record"
+      regrec.save
     end
-    regrec.series = "Congressional Record"
-    regrec.save
   end
   src.save
 
