@@ -9,7 +9,7 @@ require 'fileutils'
 
 OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
 APPLICATION_NAME = 'Google Sheets API Ruby Quickstart'
-CLIENT_SECRETS_PATH = 'client_secret.json'
+CLIENT_SECRETS_PATH = '.client_secret.json'
 CREDENTIALS_PATH = File.dirname(__FILE__)+'/.credentials/sheets.googleapis.com-ruby-quickstart.yaml'
 SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS_READONLY
 
