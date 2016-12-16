@@ -2,6 +2,7 @@ require 'registry/registry_record'
 require 'registry/source_record'
 require './header' 
 require './get_deprecated_oclcs'
+require 'blacklist'
 require 'pp'
 
 include Registry
@@ -10,11 +11,7 @@ source_count = 0
 reg_count = 0
 
 #fin = open(ARGV.shift)
-get_deprecated_oclcs.each do | line |
-  oclc = line.chomp.split(/\t/)[0].to_i
-  if oclc < 1
-    next
-  end
+Blacklist.oclcs.each do | oclc |
 
   SourceRecord.where(oclc_resolved: oclc, deprecated_timestamp:{"$exists":0})
                      .no_timeout.each do | srcrec |
