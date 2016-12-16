@@ -1,7 +1,6 @@
 require 'registry/registry_record'
 require 'registry/source_record'
 require './header' 
-require './get_deprecated_oclcs'
 require 'blacklist'
 require 'pp'
 
