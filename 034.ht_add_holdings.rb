@@ -22,7 +22,7 @@ puts ['HT id',
       'Procesed Enum/Chron'].join("\t")
 
 # all HT records in registry
-SourceRecord.where(org_code:"miaahdl",
+Registry::SourceRecord.where(org_code:"miaahdl",
                     deprecated_timestamp:{"$exists":0},
                   in_registry:true).no_timeout.each do |src|
 
