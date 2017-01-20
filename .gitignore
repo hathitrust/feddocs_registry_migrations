@@ -13,3 +13,4 @@ ignore
 *.tmp.rb
 *.tmp.tsv
 .client_secret.json
+*.swp
