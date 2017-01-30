@@ -13,16 +13,16 @@ rr_count = 0
 
 =begin
 =end
-#Monthly Labor Reports
+#Monthly Labor Reviews
 source_count = 0
 rr_count = 0
-SourceRecord.where(oclc_resolved:{"$in":MonthlyLaborReport.oclcs).no_timeout.each do |src|
+SourceRecord.where(oclc_resolved:{"$in":MonthlyLaborReview.oclcs).no_timeout.each do |src|
   source_count += 1
-  src.series = "MonthlyLaborReport"
+  src.series = "MonthlyLaborReview"
   src.save
   RegistryRecord.where(source_record_ids:src.source_id, 
-                       series:{"$ne":"Monthly Labor Report"}).no_timeout.each do |r|
-    r.series = "Monthly Labor Report"
+                       series:{"$ne":"Monthly Labor Review"}).no_timeout.each do |r|
+    r.series = "Monthly Labor Review"
     rr_count += 1
     r.save
   end
@@ -30,7 +30,7 @@ end
 puts "MLR sources: #{source_count}"
 
 # Re-extract all the Source Records
-SourceRecord.where(series: "MonthlyLaborReport",
+SourceRecord.where(series: "MonthlyLaborReview",
                    deprecated_timestamp:{"$exists":0}).no_timeout.each do |src|
   source_count += 1
 
