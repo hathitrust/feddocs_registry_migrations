@@ -16,7 +16,7 @@ rr_count = 0
 #Monthly Labor Reviews
 source_count = 0
 rr_count = 0
-SourceRecord.where(oclc_resolved:{"$in":MonthlyLaborReview.oclcs).no_timeout.each do |src|
+SourceRecord.where(oclc_resolved:{"$in":MonthlyLaborReview.oclcs}).no_timeout.each do |src|
   source_count += 1
   src.series = "MonthlyLaborReview"
   src.save
