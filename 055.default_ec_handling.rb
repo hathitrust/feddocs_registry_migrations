@@ -23,7 +23,7 @@ replacement_count = 0
 RegistryRecord.where(series:{"$exists":0},
                      enumchron_display:{"$ne":""},
                      deprecated_timestamp:{"$exists":0},
-                     last_modified:{"$lt":"ISODate('2017-02-12')").no_timeout.each do |reg|
+                     last_modified:{"$lt":"ISODate('2017-02-12')"}).no_timeout.each do |reg|
   parsed = SourceRecord.parse_ec(reg.enumchron_display)
   if parsed.nil?
     #puts "its nil! #{reg.enumchron_display}"
