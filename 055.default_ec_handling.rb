@@ -55,7 +55,7 @@ RegistryRecord.where(series:{"$exists":0},
     replacement = RegistryRecord.new(reg.source_record_ids, 
                                      exploded, 
                                      "Improved enum/chron parsing. #{REPO_VERSION}",
-                                     reg.registry_id)
+                                     [reg.registry_id])
     replacement.save
     reg.deprecate("Improved enum/chron parsing. #{REPO_VERSION}", replacement.registry_id)
     reg.source_record_ids.each {|i| puts i}
