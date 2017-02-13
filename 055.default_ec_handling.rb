@@ -45,7 +45,7 @@ RegistryRecord.where(series:{"$exists":0},
   matched_rec = RegistryRecord.cluster(src, exploded)
   if !matched_rec.nil?
     #merge with matched one
-    new_rec = RegistryRecord.merge([matched_rec, reg], 
+    new_rec = RegistryRecord.merge([matched_rec.registry_id, reg.registry_id], 
                                    exploded, 
                                    "Improved enum/chron parsing. #{REPO_VERSION}")
     new_rec.source_record_ids.each {|i| puts i}
