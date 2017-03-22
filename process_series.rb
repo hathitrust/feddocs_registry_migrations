@@ -79,8 +79,6 @@ SourceRecord.where(series:series,
                    deprecated_timestamp:{"$exists":0}).no_timeout.each do |src|
   src.source = src.source.to_json #re-extraction done here
   res = src.update_in_registry("Improved enum/chron parsing. #{REPO_VERSION}") #this will take care of everything
-  deprecate_count += res[:num_deleted]
-  rr_count += res[:num_new]
   src.save
 end
 
