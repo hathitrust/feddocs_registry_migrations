@@ -24,14 +24,19 @@ end
 
 src_recs_to_reparse.flatten!.uniq!
 
-puts "num src records reparsed: #{src_recs_to_reparse}"
+puts "num src records reparsed: #{src_recs_to_reparse.count}"
 
 src_recs_to_reparse.each do | sid |
 
   src = SourceRecord.where(source_id:sid).first
-  src.source = src.source.to_json
-  res = src.update_in_registry("Fixed 4 digit enumchron parsing. #{REPO_VERSION}")
-  src.save
+  begin
+    src.source = src.source.to_json
+    res = src.update_in_registry("Fixed 4 digit enumchron parsing. #{REPO_VERSION}")
+    src.save
+  rescue
+    PP.pp src.source.to_json
+    next
+  end
 end
 
 puts "num rr dep:#{num_rr}"
