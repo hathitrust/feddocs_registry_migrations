@@ -47,6 +47,7 @@ end
 # Registry records get a more human friendly series title
 human_series = series.gsub(/([A-Z])/, ' \1').strip
 
+puts human_series
 # initial src numbers
 before_src_count = SourceRecord.where(series:series,
                                       deprecated_timestamp:{"$exists":0}).count
