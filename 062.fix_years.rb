@@ -16,7 +16,7 @@ src_recs_to_reparse = []
 num_rr = 0
 
 RegistryRecord.where(series:{"$exists":0},
-                     enumchron_display:/^Year:(1[0-7]|2[1-9])\d{2}$/,
+                     enumchron_display:/^Year:(1[0-7]|2[1-9])\d{2}/,
                      deprecated_timestamp:{"$exists":0}).no_timeout.each do | rr |
   num_rr += 1
   src_recs_to_reparse << rr.source_record_ids
