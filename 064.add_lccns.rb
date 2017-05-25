@@ -17,7 +17,8 @@ SourceRecord.where(deprecated_timestamp:{"$exists":0},
   src.save
 end 
 num_rr = 0
-RegistryRecord.where(deprecated_timestamp:{"$exists":0}).no_timeout.each do |reg|
+RegistryRecord.where(deprecated_timestamp:{"$exists":0},
+                     author_lccns:{"$exists":0}).no_timeout.each do |reg|
   num_rr += 1
   reg.author_lccns = reg.sources.collect{|s| s.author_lccns}.flatten.uniq
   reg.added_entry_lccns = reg.sources.collect{|s| s.added_entry_lccns}.flatten.uniq
