@@ -27,10 +27,10 @@ open(ARGV.shift).each do | dupes |
     recs << reg.registry_id
   end
 
-  if recs.count > 0
+  if recs.count > 1
     num_merged += recs.count
     num_new += 1
-    new = RegistryRecord.merge(recs, reg.enumchron_display, REASON)
+    new = RegistryRecord.merge(recs, rec['enumchron_display'], REASON)
   end
 end
 
