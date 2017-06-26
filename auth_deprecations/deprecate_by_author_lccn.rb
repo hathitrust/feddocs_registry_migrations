@@ -1,7 +1,8 @@
-require 'registry_record'
-require 'source_record'
-require './header' 
-
+require 'registry/registry_record'
+require 'registry/source_record'
+require './header'
+SourceRecord = Registry::SourceRecord
+RegistryRecord = Registry::RegistryRecord
 
 count = 0
 nongd = 0
