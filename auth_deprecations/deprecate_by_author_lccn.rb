@@ -18,9 +18,9 @@ srcs = SourceRecord.where({deprecated_timestamp:{"$exists":0},
 
 srcs.each do | src |
   count += 1
-  if src.is_govdoc
-    next
-  else
+  #if src.is_govdoc
+  #  next
+  #else
     nongd += 1
     RegistryRecord.where({deprecated_timestamp:{"$exists":0}, source_record_ids:src.source_id}).each do | reg |
       reg_count += 1
@@ -31,7 +31,7 @@ srcs.each do | src |
     end
     src.deprecate("#{REPO_VERSION}: Not a United States Federal Document. Identified by author.")
     #bad_out.puts src.source.to_json
-  end
+  #end
   
 end
 
