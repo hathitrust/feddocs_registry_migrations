@@ -19,7 +19,7 @@ end
 
 RegistryRecord.where(deprecated_timestamp:{"$exists":0},
                      report_numbers:{"$exists":0}).no_timeout.each do |reg|
-  reg.report_numbers
+  reg.report_numbers = reg.sources.collect{|s| s.report_numbers}.flatten.uniq
   if reg.report_numbers.count > 0
     num_rr += 1
     reg.save
