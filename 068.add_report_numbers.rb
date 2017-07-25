@@ -17,10 +17,12 @@ SourceRecord.where(deprecated_timestamp:{"$exists":0},
   end
 end 
 
+num_rr = 0
 RegistryRecord.where(deprecated_timestamp:{"$exists":0},
                      report_numbers:{"$exists":0}).no_timeout.each do |reg|
-  reg.report_numbers = reg.sources.collect{|s| s.report_numbers}.flatten.uniq
-  if reg.report_numbers.count > 0
+  reg['report_numbers'] = []
+  reg['report_numbers'] = reg.sources.collect{|s| s['report_numbers']}.flatten.uniq
+  if !reg['report_numbers'] or reg['report_numbers'].count > 0
     num_rr += 1
     reg.save
   end
