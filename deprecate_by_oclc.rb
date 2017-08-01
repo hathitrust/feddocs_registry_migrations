@@ -1,7 +1,7 @@
 require 'registry/registry_record'
 require 'registry/source_record'
 require './header' 
-require 'oclc_filter/blacklist'
+require 'filter/blacklist'
 require 'pp'
 
 include Registry
