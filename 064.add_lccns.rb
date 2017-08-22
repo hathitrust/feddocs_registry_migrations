@@ -18,12 +18,13 @@ SourceRecord.where(deprecated_timestamp:{"$exists":0}).no_timeout.each do | src 
     src.save
   end
 end 
+
 num_rr = 0
 RegistryRecord.where(deprecated_timestamp:{"$exists":0}).no_timeout.each do |reg|
-  prev_count = reg['author_lccns']
+  prev_count = reg['author_lccns'].count
   reg.author_lccns = reg.sources.collect{|s| s.author_lccns}.flatten.uniq
   reg.added_entry_lccns = reg.sources.collect{|s| s.added_entry_lccns}.flatten.uniq
-  if prev_count <= reg['author_lccns']
+  if prev_count <= reg['author_lccns'].count
     num_rr += 1
     reg.save
   end
