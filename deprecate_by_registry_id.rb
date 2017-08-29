@@ -1,6 +1,7 @@
 require 'registry/registry_record'
 require 'registry/source_record'
 require './header' 
+require 'filter/blacklist'
 require 'pp'
 
 include Registry
@@ -8,15 +9,23 @@ include Registry
 # not deprecating related source ids
 reg_count = 0
 
-fin = open(ARGV.shift)
-fin.each do | line |
-  #extract the registry id in case it's a full url
-  reg_id = /(?:.*catalog\/)?(.*)(?:#)?/.match(line.split(/\t/)[0])[1]  
-  if reg_id.length != 36
-    #puts "bad reg id: #{reg_id}"
-    next
+# use the Gsheet class
+class RegIDList < Gsheet
+  class << self; attr_accessor :reg_ids; end
+  
+  def self.sheet_id
+    ENV['BLACKLISTED_REGISTRY_IDS']
   end
 
+  #extract the registry id in case it's a full url
+  def self.extract_id_from_url line
+    return /(?:.*catalog\/)?(.*)(?:#)?/.match(line)[1]  
+  end
+
+  self.reg_ids = self.get_data.map {|line| self.extract_id_from_url(line)}.to_set
+end
+
+RegIDList.reg_ids.each do | reg_id |
   regrec = RegistryRecord.where(registry_id: reg_id,
                                deprecated_timestamp: {"$exists":0}).first
   if regrec.nil?
