@@ -8,7 +8,7 @@ Dotenv.load!
 
 Mongoid.load!(File.expand_path("../config/mongoid.yml", __FILE__), :development)
 num_src = 0
-SourceRecord.where(series:{"$exists":1},
+SourceRecord.where("series.0":{"$exists":1},
                    deprecated_timestamp:{"$exists":0}).no_timeout.each do |src|
   num_src += 1
   if src.series.nil?
