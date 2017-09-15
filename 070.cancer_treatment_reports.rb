@@ -15,11 +15,11 @@ rr_count = 0
 SourceRecord.where(oclc_resolved:{"$in":CancerTreatmentReport.oclcs}, 
                   series:{"$ne":"CancerTreatmentReport"}).no_timeout.each do |src|
   source_count += 1
-  src.series << "CancerTreatmentReport"
+  src['series'] << "CancerTreatmentReport"
   src.save
   RegistryRecord.where(source_record_ids:src.source_id, 
                        series:{"$ne":"Cancer Treatment Report"}).no_timeout.each do |r|
-    r.series << "Cancer Treatment Report"
+    r['series'] << "Cancer Treatment Report"
     rr_count += 1
     r.save
   end
