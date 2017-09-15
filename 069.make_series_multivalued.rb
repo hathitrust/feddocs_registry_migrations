@@ -8,7 +8,7 @@ Dotenv.load!
 
 Mongoid.load!(File.expand_path("../config/mongoid.yml", __FILE__), :development)
 num_src = 0
-SourceRecord.where("series.0":{"$exists":1},
+SourceRecord.where(series:{"$ne":[]},
                    deprecated_timestamp:{"$exists":0}).no_timeout.each do |src|
   num_src += 1
   if src.series.nil?
@@ -20,7 +20,8 @@ SourceRecord.where("series.0":{"$exists":1},
 end 
 
 num_rr = 0
-RegistryRecord.where(series:{"$exists":1},
+RegistryRecord.where("$and":[{series:{"$exists":1}},
+                             {series:{"$ne":[]}}],
                      deprecated_timestamp:{"$exists":0}).no_timeout.each do |reg|
   num_rr += 1
   if reg.series.nil?
