@@ -12,19 +12,14 @@ include Registry::Series
 #
 source_count = 0
 rr_count = 0
-SourceRecord.where(oclc_resolved:{"$in":CancerTreatmentReport.oclcs}, 
-                  series:{"$ne":"CancerTreatmentReport"}).no_timeout.each do |src|
+PP.pp CancerTreatmentReport.oclcs
+SourceRecord.where(oclc_resolved:{"$in":CancerTreatmentReport.oclcs}).no_timeout.each do |src|
   source_count += 1
-  src.series
-  #src['series'] << "CancerTreatmentReport"
+  src.series = src.series
   src.save
   RegistryRecord.where(source_record_ids:src.source_id, 
                        series:{"$ne":"Cancer Treatment Report"}).no_timeout.each do |r|
-    if r['series'] 
-      r['series'] << "Cancer Treatment Report"
-    else
-      r['series'] = ['Cancer Treatment Report']
-    end
+    r.series = r.series
     rr_count += 1
     r.save
   end
@@ -43,7 +38,6 @@ SourceRecord.where(series:"CancerTreatmentReport",
   rr_count += res[:num_new]
   src.save
 end
-
 puts "# new RegRecs: #{rr_count}"
 puts "Deprecated records: #{deprecate_count}"
 puts "Source records: #{source_count}"
