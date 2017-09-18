@@ -11,11 +11,7 @@ num_src = 0
 SourceRecord.where(series:{"$ne":[]},
                    deprecated_timestamp:{"$exists":0}).no_timeout.each do |src|
   num_src += 1
-  if src.series.nil?
-    src.series = []
-  else
-    src.series = [src.series].flatten
-  end
+  src.series = src.series
   src.save
 end 
 
@@ -24,11 +20,7 @@ RegistryRecord.where("$and":[{series:{"$exists":1}},
                              {series:{"$ne":[]}}],
                      deprecated_timestamp:{"$exists":0}).no_timeout.each do |reg|
   num_rr += 1
-  if reg.series.nil?
-    reg.series = []
-  else
-    reg.series = [reg.series].flatten
-  end
+  reg.series = reg.series
   reg.save
 end
 
