@@ -19,7 +19,8 @@ SourceRecord.where(oclc_resolved:{"$in":VitalStatistics.oclcs}).no_timeout.each 
   src.save
   RegistryRecord.where(source_record_ids:src.source_id, 
                        series:{"$ne":"Vital Statistics"}).no_timeout.each do |r|
-    r.series = r.series
+    r.series << "Vital Statistics"
+    r.series.uniq! 
     rr_count += 1
     r.save
   end

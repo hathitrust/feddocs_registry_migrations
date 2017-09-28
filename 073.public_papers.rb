@@ -5,10 +5,8 @@ require 'pp'
 
 include Registry
 include Registry::Series
-# Parse enumchrons for Vital Statistics registry records 
+# Parse enumchrons for Public Papers registry records 
 #
-=begin
-=end
 #
 Pub = PublicPapersOfThePresidents
 source_count = 0
@@ -20,14 +18,14 @@ SourceRecord.where(oclc_resolved:{"$in":Pub.oclcs}).no_timeout.each do |src|
   src.save
   RegistryRecord.where(source_record_ids:src.source_id, 
                        series:{"$ne":"Public Papers Of The Presidents"}).no_timeout.each do |r|
-    r.series = r.series
+    r.series << "Public Papers Of The Presidents"
+    r.series.uniq! 
     rr_count += 1
     r.save
   end
 end
 puts "Publick Paper sources: #{source_count}"
 puts "Initial RR count: #{rr_count}"
-
 deprecate_count = 0
 rr_count = 0
 
