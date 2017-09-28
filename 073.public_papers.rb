@@ -18,6 +18,7 @@ SourceRecord.where(oclc_resolved:{"$in":Pub.oclcs}).no_timeout.each do |src|
   src.save
   RegistryRecord.where(source_record_ids:src.source_id, 
                        series:{"$ne":"Public Papers Of The Presidents"}).no_timeout.each do |r|
+    r.series ||= []
     r.series << "Public Papers Of The Presidents"
     r.series.uniq! 
     rr_count += 1
