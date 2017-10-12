@@ -25,7 +25,7 @@ SourceRecord.where(oclc_resolved:{"$in":Pub.oclcs}).no_timeout.each do |src|
     r.save
   end
 end
-puts "Publick Paper sources: #{source_count}"
+puts "Public Paper sources: #{source_count}"
 puts "Initial RR count: #{rr_count}"
 deprecate_count = 0
 rr_count = 0
