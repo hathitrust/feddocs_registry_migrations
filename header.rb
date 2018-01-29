@@ -7,6 +7,6 @@ end
 # Need to track which repo version deprecated something
 REPO_VERSION = `git rev-parse HEAD`.strip
 
-Mongoid.load!("config/mongoid.yml", :development)
+Mongoid.load!(ENV['MONGOID_CONF'], :production)
 
 Mongo::Logger.logger.level = ::Logger::FATAL

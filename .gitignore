@@ -3,6 +3,7 @@
 .credentials
 Gemfile.lock
 config/mongoid.yml
+config/old_mongoid.yml
 nohup*.out
 identifiers/extract_035s.rb
 identifiers/identifier_prefixes.rb
