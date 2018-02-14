@@ -14,7 +14,7 @@ srcs = SourceRecord.where({deprecated_timestamp:{"$exists":0}, "non_sudocs.0":{"
 
 srcs.each do | src |
   count += 1
-  if src.is_govdoc
+  if src.fed_doc?
     next
   else
     nongd += 1

@@ -16,7 +16,7 @@ open(ARGV.shift).each do | source_id |
   if src.nil?
     #puts "nil: #{source_id}"
   else
-    if src.is_govdoc
+    if src.fed_doc?
       govdoc += 1
     else
       not_govdoc += 1

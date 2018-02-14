@@ -43,7 +43,7 @@ SourceRecord.where(org_code:"ula",
         SourceRecord.where(org_code:"miaahdl",
                            oclc_resolved:oclc,
                            deprecated_timestamp:{"$exists":0}).no_timeout.each do |ht_src|
-          if !ht_src.is_govdoc
+          if !ht_src.fed_doc?
             ht_src.deprecate("#{REPO_VERSION}: Bad OCLC numbers from Utah.")
             ht_deprecate_count += 1
             RegistryRecord.where(source_record_ids:[ht_src.source_id],
