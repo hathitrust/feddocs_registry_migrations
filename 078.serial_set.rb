@@ -12,7 +12,7 @@ source_count = 0
 rr_count = 0
 PP.pp CongressionalSerialSet.oclcs
 SourceRecord.where("$or":[{oclc_resolved:{"$in":CongressionalSerialSet.oclcs}},
-                          {sudocs:/Y 1.1\/2/}).no_timeout.each do |src|
+                          {sudocs:/Y 1.1\/2/}]).no_timeout.each do |src|
   source_count += 1
   src.series = src.series
   src.save
