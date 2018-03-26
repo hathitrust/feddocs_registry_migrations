@@ -10,7 +10,7 @@ identifiers/identifier_prefixes.rb
 identifiers/identifier_prefixes.txt
 sources_in_registry_04_15.txt
 ignore
-*.tmp
+*.tmp*
 *.tmp.rb
 *.tmp.tsv
 .client_secret.json
