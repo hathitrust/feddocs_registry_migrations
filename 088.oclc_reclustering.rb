@@ -57,7 +57,6 @@ while true
                                          r.enumchron_display,
                                          'Reclustering with OCLCs. ' \
                                          'Before new concordance table')
-      replacement.save
     end
   end
   puts "num new this pass: #{num_new_this_pass}"
