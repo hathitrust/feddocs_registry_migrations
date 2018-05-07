@@ -44,7 +44,7 @@ while true
     RegistryRecord.where(
       deprecated_timestamp:{"$exists":0},
       enumchron_display: r.enumchron_display,
-      oclcnum_t:{"$in": r.oclcnum_t}).each do |sim_r|
+      oclcnum_t:{"$in": r.oclcnum_t}).no_timeout.each do |sim_r|
         similar_recs << sim_r
     end
 
