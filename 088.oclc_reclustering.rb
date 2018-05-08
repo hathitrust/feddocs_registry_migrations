@@ -32,28 +32,17 @@ while true
       STDOUT.flush
     end
 
-    # recollate oclcs 
-    r.oclcnum_t = r.sources.collect(&:oclc_resolved).flatten.uniq
-    if r.oclcnum_t[0] < 1
-      puts "This should never happen"
-      exit
-    end
-
     # get other clusters with the same oclcs and ec
-    similar_recs = [r]
-    RegistryRecord.where(
+    similar_recs = RegistryRecord.where(
       deprecated_timestamp:{"$exists":0},
       enumchron_display: r.enumchron_display,
-      oclcnum_t:{"$in": r.oclcnum_t}).no_timeout.each do |sim_r|
-        similar_recs << sim_r
-    end
+      oclcnum_t:{"$in": r.oclcnum_t}).no_timeout.pluck(:registry_id)
 
-    if similar_recs.count > 1
+    if similar_recs.uniq.count > 1
       num_new += 1
       num_new_this_pass += 1
       num_deprecated += similar_recs.count
-      prev_ids = similar_recs.collect(&:registry_id).uniq
-      replacement = RegistryRecord.merge(prev_ids,
+      replacement = RegistryRecord.merge(similar_recs.uniq,
                                          r.enumchron_display,
                                          'Reclustering with OCLCs. ' \
                                          'Before new concordance table')
