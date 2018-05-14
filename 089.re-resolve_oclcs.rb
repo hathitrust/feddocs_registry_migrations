@@ -2,9 +2,11 @@
 require 'registry/registry_record'
 require 'registry/source_record'
 require './header' 
+require 'oclc_authoritative'
 require 'pp'
 
 include Registry
+include OclcAuthoritative
 
 num_updated = 0
 num_seen = 0
