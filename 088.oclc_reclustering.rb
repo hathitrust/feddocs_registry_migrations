@@ -28,7 +28,7 @@ while true
     # so we have a clue what's going on
     num_seen += 1
     if num_seen % 10000 == 0
-      puts num_seen
+      puts num_seen + ' ' + Time.now.strftime("%d/%m/%Y %H:%M")
       STDOUT.flush
     end
 
