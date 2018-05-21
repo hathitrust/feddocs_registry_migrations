@@ -39,15 +39,18 @@ STDOUT.flush
 
 num_seen = 0
 num_regrecs_updated = 0
-# use the list of updated sources to update their Regrecs
+# use the list of updated sources to update their OCLCs
+source_ids = open(ARGV.shift)
 source_ids.each do |sid|
+  sid.chomp!
   RegistryRecord.where(
     deprecated_timestamp:{"$exists":0},
     source_record_ids:sid
   ).no_timeout.each do |r|
    
     num_regrecs_updated += 1
-    
+    r.oclcnum_t = r.sources.collect(&:oclc_resolved).flatten.uniq
+    r.save
     # so we have a clue what's going on
     num_seen += 1
     if num_seen % 10000 == 0
