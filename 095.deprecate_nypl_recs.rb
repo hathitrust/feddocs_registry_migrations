@@ -29,7 +29,7 @@ SourceRecord.where(org_code:'nn',
                         deprecated_timestamp:{"$exists":0}
                       ).no_timeout.each do |reg|
     regrec_count += 1
-    reg.deprecate( "#{REPO_VERSION}: Some records without OCNs and SuDocs have been removed from the Registry."
+    reg.deprecate( "#{REPO_VERSION}: Some records without OCNs and SuDocs have been removed from the Registry.")
   end
   regrecs_remaining = RegistryRecord.where( source_record_ids:src.source_id,
                                             deprecated_timestamp:{"$exists":0}
