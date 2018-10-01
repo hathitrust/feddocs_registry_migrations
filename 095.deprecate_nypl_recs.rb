@@ -44,4 +44,4 @@ end
 
 puts "deprecated srcs: #{source_count}"
 puts "deprecated regrecs: #{regrec_count}"
-puts src_not_removed.join("\r")
+puts srcs_not_removed.join("\r")
