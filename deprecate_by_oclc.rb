@@ -9,6 +9,8 @@ include Registry
 source_count = 0
 reg_count = 0
 
+deprecated_oclcs = Hash.new 0
+
 #fin = open(ARGV.shift)
 Blacklist.oclcs.each do | oclc |
 
@@ -28,9 +30,11 @@ Blacklist.oclcs.each do | oclc |
                        .no_timeout.each do | regrec | 
     reg_count += 1
     regrec.deprecate("#{REPO_VERSION}: Not a US Federal Document. Identified by OCLC.")
-    puts oclc
+    deprecated_oclcs[oclc] += 1
   end
 end
+
+deprecated_oclcs.each { |o, count| puts o + ": " + count }
 
 puts "Source records deprecated: #{source_count}"
 puts "RegRecs deprecated: #{reg_count}"
