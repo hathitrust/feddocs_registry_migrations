@@ -34,7 +34,7 @@ Blacklist.oclcs.each do | oclc |
   end
 end
 
-deprecated_oclcs.each { |o, count| puts o + ": " + count }
+deprecated_oclcs.each { |o, count| puts  "#{o}: #{count}" }
 
 puts "Source records deprecated: #{source_count}"
 puts "RegRecs deprecated: #{reg_count}"
