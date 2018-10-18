@@ -26,7 +26,7 @@ SourceRecord.where(org_code:'iaas',
                   ).no_timeout.each do |src|
   old_ocns = src.oclc_resolved.clone
   src.source = src.source.to_json
-  (old_ocns - src.oclc_resolved).each do {|o| puts o}
+  (old_ocns - src.oclc_resolved).each {|o| puts o}
   
   # recluster associated registry records 
   RegistryRecord.where(source_record_ids:[src.source_id],

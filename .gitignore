@@ -16,3 +16,4 @@ ignore
 .client_secret.json
 *.swp
 utah
+data/*results.txt
