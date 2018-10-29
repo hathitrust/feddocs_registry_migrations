@@ -17,3 +17,6 @@ ignore
 *.swp
 utah
 data/*results.txt
+data/*.txt
+data/removal_results
+but_why_tho
