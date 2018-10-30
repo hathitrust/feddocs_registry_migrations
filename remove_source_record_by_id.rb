@@ -17,11 +17,11 @@ Mongoid.load!(ENV['MONGOID_CONF'], :production)
 # Remove it. 
 num_removed_total = 0
 source_id = ARGV.shift
-SourceRecord.where(source_id:source_id,
-                   deprecated_timestamp:{"$exists":0}
-                  ).no_timeout.each do |src|
-  num_removed = src.remove_from_registry('Not a US Federal Government Document.')
+SourceRecord.where(source_id:source_id).no_timeout.each do |src|
+  num_removed = src.remove_from_registry('Removing source record by id.')
   num_removed_total += num_removed
-  src.deprecate('Not a US Federal Government Document.')
+  if !src.deprecated_timestamp
+    src.deprecate('Removing source record by id.')
+  end
 end
 puts "Num removed based on: #{num_removed_total}" 
