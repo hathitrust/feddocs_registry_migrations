@@ -31,7 +31,7 @@ puts "Initial RR count: #{rr_count}"
 deprecate_count = 0
 rr_count = 0
 
-SourceRecord.where(series:"PublicHealthReportSupplements", 
+SourceRecord.where(series:"FCCRecord", 
                    deprecated_timestamp:{"$exists":0}).no_timeout.each do |src|
   src.source = src.source.to_json #re-extraction done here
   res = src.update_in_registry("Improved enum/chron parsing. #{REPO_VERSION}") #this will take care of everything
