@@ -10,11 +10,12 @@ include Registry
 source_count = 0
 rr_count = 0
 source_ids = []
-RegistryRecord.where(enumchron_display:/^\d\d\d\d\s(V\.\s\d+)PT\.\s\d+$/,
+RegistryRecord.where(enumchron_display:/^\d\d\d\d(\sV\.\s\d+)?\sPT\.\s\d+$/,
 		     deprecated_timestamp:{"$exists":0}).no_timeout.each do |rec|
   rr_count += 1
   source_ids << rec.source_record_ids
 end
+puts "rr_count:#{rr_count}"
 
 source_ids.flatten!
 source_ids.uniq!
