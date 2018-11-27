@@ -17,7 +17,7 @@ SourceRecord.where(oclc_resolved:{"$in":PHRS.oclcs}).no_timeout.each do |src|
   src.save
   RegistryRecord.where(source_record_ids:src.source_id, 
                        series:{"$ne":"PublicHealthReportSupplements"},
-                       deprecated_timstamp:{"$exists":0}
+                       deprecated_timestamp:{"$exists":0}
                       ).no_timeout.each do |r|
     r.series ||= []
     r.series << "Public Health Report Supplements"

@@ -17,7 +17,7 @@ SourceRecord.where(oclc_resolved:{"$in":COB.oclcs}).no_timeout.each do |src|
   src.save
   RegistryRecord.where(source_record_ids:src.source_id, 
                        series:{"$ne":"Calendar Of Business"},
-                       deprecated_timstamp:{"$exists":0}
+                       deprecated_timestamp:{"$exists":0}
                       ).no_timeout.each do |r|
     r.series ||= []
     r.series << "F C C Record"
