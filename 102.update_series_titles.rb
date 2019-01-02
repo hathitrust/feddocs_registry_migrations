@@ -9,7 +9,7 @@ include Registry
 source_count = 0
 SourceRecord.where(series:/^[^ ]+$/).no_timeout.each do |src|
   source_count += 1
-  src.series
+  src.series = src.series
   src.save
 end
 puts "src count:#{source_count}"
