@@ -1,6 +1,6 @@
 require 'registry/registry_record'
 require 'registry/source_record'
-reuqire 'ecmangle'
+require 'ecmangle'
 require './header' 
 require 'pp'
 
