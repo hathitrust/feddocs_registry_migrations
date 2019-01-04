@@ -5,7 +5,6 @@ require './header'
 require 'pp'
 
 include Registry
-include Registry::Series
 # Parse enumchrons for BLS Bulletin registry records 
 #
 #
