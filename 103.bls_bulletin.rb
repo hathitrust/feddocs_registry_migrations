@@ -20,7 +20,7 @@ SourceRecord.where(oclc_resolved:{"$in":BLS.new.ocns}).no_timeout.each do |src|
                        deprecated_timestamp:{"$exists":0}
                       ).no_timeout.each do |r|
     rr_count += 1
-    r.series = rec.sources.collect(&:series).flatten.uniq
+    r.series = r.sources.collect(&:series).flatten.uniq
     r.save
   end
 end
