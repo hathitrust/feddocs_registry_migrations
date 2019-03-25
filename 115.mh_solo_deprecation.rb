@@ -5,6 +5,7 @@ require './header'
 require 'pp'
 
 SourceRecord = Registry::SourceRecord
+SourceRecord = Registry::RegistryRecord
 
 # JIRA issue HT-1162
 # MH records got dragged in, presumably by INND records. Now that they are 
