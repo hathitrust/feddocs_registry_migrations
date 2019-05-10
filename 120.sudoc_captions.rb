@@ -12,7 +12,7 @@ src_ids = []
 SourceRecord.where(deprecated_timestamp:{"$exists":0},
                    sudocs:'I 19.81:(nos.-letters)/(ed.yr.)').no_timeout.each do |sr|
   sr.extract_sudocs
-  if sr.sudocs.include("I 19.81:(nos.-letters)/(ed.yr.)")
+  if sr.sudocs.include? "I 19.81:(nos.-letters)/(ed.yr.)"
     puts 'Error in reprocessing'
     exit
   end
