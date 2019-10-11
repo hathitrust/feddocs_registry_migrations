@@ -40,7 +40,7 @@ STDOUT.flush
 num_seen = 0
 num_regrecs_updated = 0
 # use the list of updated sources to update their OCLCs
-source_ids = open(ARGV.shift)
+#source_ids = open(ARGV.shift)
 source_ids.each do |sid|
   sid.chomp!
   RegistryRecord.where(
