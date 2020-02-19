@@ -4,7 +4,6 @@ require './header'
 require 'pp'
 
 include Registry
-include Registry::Series
 
 # https://tools.lib.umich.edu/jira/browse/HT-2196
 #
