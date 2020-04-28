@@ -13,7 +13,7 @@ SourceRecord.where(org_code:"miaahdl",
                    deprecated_timestamp:{"$exists":0}
                   ).no_timeout.each do |src|
   srcs_reextracted += 1
-  src.extract_holdings
+  src.source = src.source.to_json
   src.save
 end 
 
