@@ -15,6 +15,7 @@ SourceRecord.where(org_code:"miaahdl",
   srcs_reextracted += 1
   src.source = src.source.to_json
   src.save
+  src.update_in_registry
 end 
 
 puts "srcs re extracted:#{srcs_reextracted}"
