@@ -1,7 +1,7 @@
 require 'registry/registry_record'
 require 'registry/source_record'
 require './header' 
-require 'filter/blacklist'
+require 'filter/rejected_list'
 require 'pp'
 
 include Registry
@@ -12,7 +12,7 @@ reg_count = 0
 deprecated_oclcs = Hash.new 0
 
 #fin = open(ARGV.shift)
-Blacklist.oclcs.each do | oclc |
+RejectedList.oclcs.each do | oclc |
 
   SourceRecord.where(oclc_resolved: oclc, deprecated_timestamp:{"$exists":0})
                      .no_timeout.each do | srcrec |
