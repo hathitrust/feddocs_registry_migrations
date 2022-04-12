@@ -1,3 +1,6 @@
+# DEPRECATED: We don't do this anymore. 
+# List isn't updated, and anything already on the list is already deprecated.
+
 require 'registry/registry_record'
 require 'registry/source_record'
 require './header' 
